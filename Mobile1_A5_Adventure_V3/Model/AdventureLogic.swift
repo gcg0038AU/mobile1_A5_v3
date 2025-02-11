@@ -1,32 +1,12 @@
 //
-//  ViewController.swift
-//  Mobile1_A5_Adventure2
+//  AdventureLogic.swift
+//  Mobile1_A5_Adventure_V3
 //
 //  Created by Jake Gordin on 2/10/25.
 //
 
-import UIKit
-struct Adventure {
-    init(_ head: String, _ desc: String, _ opOne: String, _ opTwo: String, _ optOneKey: Int, _ optTwoKey: Int) {
-        header = head
-        mainBody = desc
-        optionOne = opOne
-        optionTwo = opTwo
-        optionOneKey = optOneKey
-        optionTwoKey = optTwoKey
-    }
-    var header : String
-    var mainBody : String
-    var optionOne : String
-    var optionTwo : String
-    var optionOneKey : Int
-    var optionTwoKey : Int
-}
-class ViewController: UIViewController {
-    @IBOutlet weak var headingLabel: UILabel!
-    @IBOutlet weak var button1: UIButton!
-    @IBOutlet weak var button2: UIButton!
-    @IBOutlet weak var body: UILabel!
+import Foundation
+struct AdventureLogic {
     var adventureIndex = 0
     let adventure = [
         //0
@@ -53,32 +33,34 @@ class ViewController: UIViewController {
         Adventure("Rare Jewels", "After a cursory examination, it is clear to your trained treasure-hunting eyes that there is a fortune in rare jewels here for the taking! You quickly fill your pockets and head for the exit, whistling a happy tune.", "", "Continue", -1, 7),
         //11
         Adventure("Speculative Market", "You quickly fill your knapsack with the mint-condition action figures, comic books, and baseball cards carefully displayed on the shelves. However, they are thoroughly cursed, and your arms fall clean off. How unfortunate.", "", "Continue", -1, 8)
-        
-        
     ]
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        updateUI()
+    mutating func updateIndex(index: Int) {
+        adventureIndex = index
     }
-    func updateUI() {
-        headingLabel.text = adventure[adventureIndex].header
-        body.text = adventure[adventureIndex].mainBody
-        button1.setTitle(adventure[adventureIndex].optionOne, for: .normal)
-        button2.setTitle(adventure[adventureIndex].optionTwo, for: .normal)
-        if (button1.currentTitle == "") {
-            button1.isHidden = true
+    func getHeader() -> String {
+        return adventure[adventureIndex].header
+    }
+    func getBody() -> String {
+        return adventure[adventureIndex].mainBody
+    }
+    func getButtonTitle(button: Int) -> String {
+        var text = ""
+        if (button == 1) {
+            text = adventure[adventureIndex].optionOne
         }
-        else {
-            button1.isHidden = false
+        else if (button == 2) {
+            text = adventure[adventureIndex].optionTwo
         }
+        return text
     }
-    @IBAction func button1Press(_ sender: Any) {
-        adventureIndex = adventure[adventureIndex].optionOneKey
-        updateUI()
-    }
-    @IBAction func button2Press(_ sender: Any) {
-        adventureIndex = adventure[adventureIndex].optionTwoKey
-        updateUI()
+    func getButtonKey(button: Int) -> Int {
+        var key = -1
+        if (button == 1) {
+            key = adventure[adventureIndex].optionOneKey
+        }
+        else if (button == 2) {
+            key = adventure[adventureIndex].optionTwoKey
+        }
+        return key
     }
 }
